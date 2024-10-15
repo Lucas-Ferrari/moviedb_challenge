@@ -2,7 +2,9 @@ import os
 
 
 class Config:
-    API_KEY = os.getenv("TMDB_API_KEY")
-    TMDB_URL = "https://api.themoviedb.org/"
-    REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
-    CACHE_EXPIRY = int(os.getenv("CACHE_EXPIRY", 30))  # Tiempo de caché en segundos
+    DEBUG = True
+    TMDB_API_KEY = ""
+    TMDB_BASE_URL = "https://api.themoviedb.org/3/"
+    REDIS_URL = "redis://127.0.0.1:6379/0"
+    CACHE_TYPE = "redis"
+    CACHE_DEFAULT_TIMEOUT = 30

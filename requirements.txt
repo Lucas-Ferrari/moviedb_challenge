@@ -3,3 +3,5 @@ dependency-injector
 pytest-cov
 pytest-flask
 requests
+Flask-Caching
+redis

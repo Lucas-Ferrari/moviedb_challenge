@@ -1,7 +1,10 @@
 import os
 
 from flask import Flask
+
+
 from app.infrastructure import database
+from app.infrastructure.extensions import cache
 from app.config import Config
 
 #Import blueprints
@@ -15,12 +18,9 @@ def create_app(test_config=None):
 
     database.init_app(app)
 
-    app.register_blueprint(movies_bp)
+    cache.init_app(app)
 
-    if test_config is None:
-        app.config.from_pyfile("config.py", silent=True)
-    else:
-        app.config.from_mapping(test_config)
+    app.register_blueprint(movies_bp)
 
     try:
         os.makedirs(app.instance_path)
