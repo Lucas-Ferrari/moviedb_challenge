@@ -4,6 +4,9 @@ from flask import Flask
 from app.infrastructure import database
 from app.config import Config
 
+#Import blueprints
+from app.entrypoints.api.entrypoints import movies_bp
+
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
@@ -11,6 +14,8 @@ def create_app(test_config=None):
     app.config.from_object(Config)
 
     database.init_app(app)
+
+    app.register_blueprint(movies_bp)
 
     if test_config is None:
         app.config.from_pyfile("config.py", silent=True)
@@ -21,9 +26,5 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-
-    @app.route("/hello")
-    def hello():
-        return "Hello, World!"
 
     return app
