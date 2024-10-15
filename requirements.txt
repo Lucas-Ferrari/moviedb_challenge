@@ -2,3 +2,4 @@ Flask
 dependency-injector
 pytest-cov
 pytest-flask
+requests
