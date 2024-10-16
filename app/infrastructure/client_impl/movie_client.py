@@ -1,6 +1,6 @@
 from app.infrastructure.extensions import db
 
-from app.domain.movies_client import MovieFavoritesAbstractClient
+from app.domain.movies_client import MovieFavoritesAbstractClient, MovieRatingsAbstractclient
 from app.domain.entities import MovieFavorites, Movies
 from app.infrastructure.client_impl.tmdb_client import TMDBClient
 
@@ -40,3 +40,15 @@ class MovieFavoritesClient(MovieFavoritesAbstractClient):
     def get_favorite_movies(self, user_id):
         favorites = MovieFavorites.query.filter_by(user_id=user_id).all()
         return [favorite.to_dict() for favorite in favorites]
+
+
+class MovieRatingsClient(MovieRatingsAbstractclient):
+
+    def get_movie_ratings(self):
+        return {"message": "Not implemented yet"}
+
+    def add_movie_rating(self):
+        return {"message": "Not implemented yet"}
+
+    def update_movie_rating(self):
+        return {"message": "Not implemented yet"}

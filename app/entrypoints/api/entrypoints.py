@@ -8,6 +8,9 @@ from app.domain.commands.handlers import (
     handler_add_favorite_movie,
     handler_remove_favorite_movie,
     handler_get_favorite_movies,
+    handler_get_movie_ratings,
+    handler_add_movie_rating,
+    handler_update_movie_rating,
 )
 
 
@@ -75,3 +78,15 @@ def get_favorite_movies():
         return jsonify(response), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@movies_bp.route("/ratings", methods=["GET"])
+def get_movie_ratings():
+    return jsonify({"message": "Not implemented yet"}), 501
+
+@movies_bp.route("/ratings", methods=["POST"])
+def add_movie_rating():
+    return jsonify({"message": "Not implemented yet"}), 501
+
+@movies_bp.route("/ratings", methods=["PUT"])
+def update_movie_rating():
+    return jsonify({"message": "Not implemented yet"}), 501
