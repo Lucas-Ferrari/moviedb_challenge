@@ -6,8 +6,11 @@ from app.domain.movies_client import MoviesClient
 
 class TMDBClient(MoviesClient):
     def __init__(self):
-        self.api_key = current_app.config["TMDB_API_KEY"]
-        self.base_url = current_app.config["TMDB_BASE_URL"]
+        self.api_key = current_app.config.get("TMDB_API_KEY", None)
+        self.base_url = current_app.config.get("TMDB_BASE_URL", None)
+
+        if not self.api_key or not self.base_url:
+            current_app.logger.error("TMDB API Key not found")
 
     def construct_header(self):
         return {"accept": "application/json", "Authorization": f"Bearer {self.api_key}"}
