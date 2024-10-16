@@ -1,0 +1,151 @@
+openapi: 3.0.0
+info:
+  title: Movie Database API
+  description: API challenge integratin TMDB API to create a movie database
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8000/
+    description: Local server
+tags:
+  - name: Movies
+    description: All about the movies
+  - name: Favorites
+    description: User Favorite movies
+  - name: Ratings
+    description: User movie ratings
+
+paths:
+  /movies/popular:
+    get:
+      tags:
+        - Movies
+      summary: Get a list of popular movies from TMDB
+      responses:
+        '200':
+          description: Returns a list of popular movies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '401':
+          description: Unauthorized request
+  /movies/favorites:
+    get:
+      tags:
+        - Favorites
+      summary: Get a list of favorite movies for the user of the request
+      responses:
+        '200':
+          description: Returns a list of favorite movies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '401':
+          description: Unauthorized request
+    post:
+      tags:
+        - Favorites
+      summary: Add a movie to favorites for the user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+      responses:
+        '201':
+          description: Movie added to favorites
+        '401':
+          description: Unauthorized request
+    delete:
+      tags:
+        - Favorites
+      summary: Remove a movie from favorites for the user
+      parameters:
+        - name: movie_id
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Movie removed from favorites
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthorized request
+  /movies/ratings:
+    get:
+      tags:
+        - Ratings
+      summary: Returns all favorite movies for the user
+      responses:
+        '200':
+          description: Returns a list of favorite movies for the user of the request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '401':
+          description: Unauthorized request
+    post:
+      tags:
+        - Ratings
+      summary: Add a rating to a movie for the user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                movie_id:
+                  type: integer
+                rating:
+                  type: integer
+      responses:
+        '201':
+          description: Rating added to movie
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthorized request
+    patch:
+      tags:
+        - Ratings
+      summary: Update a rating for a movie for the user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                movie_id:
+                  type: integer
+                rating:
+                  type: integer
+      responses:
+        '200':
+          description: Rating updated for movie
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthorized request
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - bearerAuth: []
