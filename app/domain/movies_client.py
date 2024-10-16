@@ -7,6 +7,9 @@ class MoviesClient(ABC):
     def get_popular_movies(self) -> List:
         raise NotImplementedError
 
+    @abstractmethod
+    def get_movie_details(self, movie_id: int) -> dict:
+        raise NotImplementedError
 
 class MovieFavoritesAbstractClient(ABC):
     @abstractmethod

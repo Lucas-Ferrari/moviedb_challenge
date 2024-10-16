@@ -17,3 +17,9 @@ class TMDBClient(MoviesClient):
         response = requests.get(url, headers=self.construct_header())
         response.raise_for_status()
         return response.json()["results"]
+
+    def get_movie_details(self, movie_id):
+        url = f"{self.base_url}movie/{movie_id}"
+        response = requests.get(url, headers=self.construct_header())
+        response.raise_for_status()
+        return response.json()

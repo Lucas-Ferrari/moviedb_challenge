@@ -1,12 +1,30 @@
 from app.infrastructure.extensions import db
 
 from app.domain.movies_client import MovieFavoritesAbstractClient
-from app.domain.entities import MovieFavorites
+from app.domain.entities import MovieFavorites, Movies
+from app.infrastructure.client_impl.tmdb_client import TMDBClient
 
 class MovieFavoritesClient(MovieFavoritesAbstractClient):
 
     def add_movie_favorite(self, user_id, movie_id):
-        favorite = MovieFavorites(movie_id=movie_id, user_id=user_id)
+        tmdb_client = TMDBClient()
+        movie = tmdb_client.get_movie_details(movie_id)
+
+        favorite = MovieFavorites(
+            movie_id=movie_id,
+            user_id=user_id
+        )
+
+        movie = Movies.get_or_create(
+            id=movie["id"],
+            title=movie["title"],
+            overview=movie["overview"],
+            popularity=movie["popularity"],
+            release_date=movie["release_date"],
+            vote_average=movie["vote_average"],
+            vote_count=movie["vote_count"],
+        )
+
         db.session.add(favorite)
         db.session.commit()
         return favorite.to_dict()
