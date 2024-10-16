@@ -81,7 +81,15 @@ def get_favorite_movies():
 
 @movies_bp.route("/ratings", methods=["GET"])
 def get_movie_ratings():
-    return jsonify({"message": "Not implemented yet"}), 501
+    user = check_token()
+    if isinstance(user, tuple):
+        return user
+
+    try:
+        response = handler_get_movie_ratings(user['id'])
+        return jsonify(response), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @movies_bp.route("/ratings", methods=["POST"])
 def add_movie_rating():
@@ -101,6 +109,20 @@ def add_movie_rating():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@movies_bp.route("/ratings", methods=["PUT"])
+@movies_bp.route("/ratings", methods=["PATCH"])
 def update_movie_rating():
-    return jsonify({"message": "Not implemented yet"}), 501
+    user = check_token()
+    if isinstance(user, tuple):
+        return user
+
+    movie_id = request.json.get("movie_id", None)
+    rating = request.json.get("rating", None)
+
+    if movie_id is None or rating is None:
+        return jsonify({"error": "movie_id and rating are required"}), 400
+
+    try:
+        response = handler_update_movie_rating(user["id"], movie_id, rating)
+        return jsonify(response), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

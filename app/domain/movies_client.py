@@ -28,7 +28,7 @@ class MovieFavoritesAbstractClient(ABC):
 
 class MovieRatingsAbstractclient(ABC):
     @abstractmethod
-    def get_movie_ratings(self) -> List:
+    def get_movie_ratings(self, user_id: int) -> List:
         raise NotImplementedError
 
     @abstractmethod
@@ -36,5 +36,5 @@ class MovieRatingsAbstractclient(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def update_movie_rating(self) -> dict:
+    def update_movie_rating(self, user_id: int, movie_id: int, rating: int) -> dict:
         raise NotImplementedError

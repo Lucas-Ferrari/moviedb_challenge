@@ -44,8 +44,10 @@ class MovieFavoritesClient(MovieFavoritesAbstractClient):
 
 class MovieRatingsClient(MovieRatingsAbstractclient):
 
-    def get_movie_ratings(self):
-        return {"message": "Not implemented yet"}
+    def get_movie_ratings(self, user_id: int):
+        ratings = MovieRating.query.filter_by(user_id=user_id).all()
+        return [rating.to_dict() for rating in ratings]
+
 
     def add_movie_rating(self, user_id: int, movie_id: int, rating: int):
         tmdb_client = TMDBClient()
@@ -67,5 +69,13 @@ class MovieRatingsClient(MovieRatingsAbstractclient):
         db.session.commit()
         return movie_rating.to_dict()
 
-    def update_movie_rating(self):
-        return {"message": "Not implemented yet"}
+    def update_movie_rating(self, user_id: int, movie_id: int, rating: int):
+        # Check if rating is already in the database and then update it
+        movie_rating = MovieRating.query.filter_by(user_id=user_id, movie_id=movie_id).first()
+
+        if not movie_rating:
+            return {"message": f"Could not update rating for movie {movie_id}, you have to add a rating first"}
+
+        movie_rating.rating = rating
+        db.session.commit()
+        return movie_rating.to_dict()
