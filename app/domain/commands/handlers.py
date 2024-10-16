@@ -24,8 +24,10 @@ def handler_get_favorite_movies(user_id: int):
 def handler_get_movie_ratings():
     return {"message": "Not implemented yet"}
 
-def handler_add_movie_rating():
-    return {"message": "Not implemented yet"}
+def handler_add_movie_rating(user_id: int, movie_id: int, rating: int):
+    client = MovieRatingsClient()
+    response = client.add_movie_rating(user_id, movie_id, rating)
+    return response
 
 def handler_update_movie_rating():
     return {"message": "Not implemented yet"}

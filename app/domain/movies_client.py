@@ -32,7 +32,7 @@ class MovieRatingsAbstractclient(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def add_movie_rating(self) -> dict:
+    def add_movie_rating(self, user_id: int, movie_id: int, rating: int) -> dict:
         raise NotImplementedError
 
     @abstractmethod
