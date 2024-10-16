@@ -31,6 +31,8 @@ class MovieFavoritesClient(MovieFavoritesAbstractClient):
 
     def remove_movie_favorite(self, user_id, movie_id):
         favorite = MovieFavorites.query.filter_by(user_id=user_id, movie_id=movie_id).first()
+        if not favorite:
+            return {"message": "Favorite not found"}
         db.session.delete(favorite)
         db.session.commit()
         return {"message": "Favorite removed"}
