@@ -10,3 +10,13 @@ def handler_add_favorite_movie(user_id: int, movie_id: int):
     client = MovieFavoritesClient()
     response = client.add_movie_favorite(user_id, movie_id)
     return response
+
+def handler_remove_favorite_movie(user_id: int, movie_id: int):
+    client = MovieFavoritesClient()
+    response = client.remove_movie_favorite(user_id, movie_id)
+    return response
+
+def handler_get_favorite_movies(user_id: int):
+    client = MovieFavoritesClient()
+    response = client.get_favorite_movies(user_id)
+    return response

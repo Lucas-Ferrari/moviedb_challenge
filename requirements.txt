@@ -5,3 +5,4 @@ pytest-flask
 requests
 Flask-Caching
 redis
+Flask-SQLAlchemy

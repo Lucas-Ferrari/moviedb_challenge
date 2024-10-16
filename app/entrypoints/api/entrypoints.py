@@ -5,7 +5,9 @@ from app.mock_auth import check_token
 
 from app.domain.commands.handlers import (
     handler_get_popular_movies,
-    handler_add_favorite_movie
+    handler_add_favorite_movie,
+    handler_remove_favorite_movie,
+    handler_get_favorite_movies,
 )
 
 
@@ -41,6 +43,35 @@ def add_favorite_movie():
 
     try:
         response = handler_add_favorite_movie(user["id"], movie_id)
+        return jsonify(response), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@movies_bp.route("/favorites", methods=["DELETE"])
+def remove_favorite_movie():
+    user = check_token()
+    if isinstance(user, tuple):
+        return user
+
+    movie_id = request.json.get("movie_id", None)
+
+    if movie_id is None:
+        return jsonify({"error": "movie_id is required"}), 400
+
+    try:
+        response = handler_remove_favorite_movie(user["id"], movie_id)
+        return jsonify(response), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@movies_bp.route("/favorites", methods=["GET"])
+def get_favorite_movies():
+    user = check_token()
+    if isinstance(user, tuple):
+        return user
+
+    try:
+        response = handler_get_favorite_movies(user["id"])
         return jsonify(response), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500

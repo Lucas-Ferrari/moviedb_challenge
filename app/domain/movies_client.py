@@ -16,3 +16,7 @@ class MovieFavoritesAbstractClient(ABC):
     @abstractmethod
     def remove_movie_favorite(self, user_id: int, movie_id: int) -> dict:
         raise NotImplementedError
+
+    @abstractmethod
+    def get_favorite_movies(self, user_id: int) -> List:
+        raise NotImplementedError
