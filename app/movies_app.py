@@ -2,9 +2,7 @@ import os
 
 from flask import Flask
 
-
-from app.infrastructure import database
-from app.infrastructure.extensions import cache
+from app.infrastructure.extensions import cache, db
 from app.config import Config
 
 #Import blueprints
@@ -16,7 +14,10 @@ def create_app(test_config=None):
 
     app.config.from_object(Config)
 
-    database.init_app(app)
+    db.init_app(app)
+
+    with app.app_context():
+        db.create_all()
 
     cache.init_app(app)
 
